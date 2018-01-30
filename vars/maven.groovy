@@ -1,5 +1,5 @@
 def call(Map config) {
-	configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-		sh "mvn --batch-mode -s $MAVEN_SETTINGS ${config.cmd}"
+	configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'GLOBAL_MAVEN_SETTINGS')]) {
+		sh "mvn --batch-mode -gs $GLOBAL_MAVEN_SETTINGS ${config.cmd}"
 	}
 }
