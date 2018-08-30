@@ -1,5 +1,5 @@
 def call(currentBuild) {
-  String buildResult = currentBuild.buildResult;
+  String buildResult = currentBuild.currentResult;
   if (buildResult == "SUCCESS") {
     slackSend color: "good", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was successful"
   }
