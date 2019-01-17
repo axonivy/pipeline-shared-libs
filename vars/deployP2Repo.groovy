@@ -1,4 +1,4 @@
-def deployP2Repository(Map config) {
+def call(Map config) {
   stage('deploy-p2-repo') {
     agent { 
       docker 'maven:3-alpine'
