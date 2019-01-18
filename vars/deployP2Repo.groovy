@@ -1,11 +1,11 @@
 // deploy a p2 directory to our p2 hosting infrastructure
-// param sourceDir: source directory in your workspace
+// param srcDir: source directory in your workspace
 // param destDir: destination directory on server
-// example: deployP2Repo sourceDir: 'target/repository/' destDir: 'nightly'
+// example: deployP2Repo srcDir: 'target/repository/' destDir: 'nightly'
 
 def call(Map config) {
   def destDir = config.destDir
-  if (destDir == '') {
+  if (!destDir?.trim()) {
     throw new Exception("destDir is empty")
   }
 
@@ -15,7 +15,7 @@ def call(Map config) {
 
     echo "Upload p2 repository to $host:$destFolder"
     sh "ssh $host mkdir -p $destFolder"
-    sh "rsync -r ${config.sourceDir} $host:$destFolder"
+    sh "rsync -r ${config.srcDir} $host:$destFolder"
     sh "ssh $host touch $destFolder/p2.ready"
   }
 }
