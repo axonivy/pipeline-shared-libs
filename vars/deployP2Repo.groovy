@@ -15,7 +15,7 @@ def call(Map config) {
 
     echo "Upload p2 repository to $host:$destFolder"
     sh "ssh $host mkdir -p $destFolder"
-    sh "rsync -r ${config.srcDir} $host:$destFolder"
+    sh "rsync -r ${config.args} ${config.srcDir} $host:$destFolder"
     sh "ssh $host touch $destFolder/p2.ready"
   }
 }
