@@ -4,7 +4,7 @@ def call(Map config) {
     if (isUnix()) {
       sh mavenCommand
     } else {
-      bat mavenCommand
+      bat mavenCommand + " -Dmaven.repo.local=${WORKSPACE}/.m2-repo"
     }
   }
 }
