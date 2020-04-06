@@ -1,4 +1,4 @@
-def call(Map config) {
+def call(Map config = [:]) {
   def versionsLog = "versions.log"
   def mavenVersionCheckPlugin = " org.codehaus.mojo:versions-maven-plugin:RELEASE:display-plugin-updates "
   def mavenVersionCheckDependency = " org.codehaus.mojo:versions-maven-plugin:RELEASE:display-dependency-updates "
