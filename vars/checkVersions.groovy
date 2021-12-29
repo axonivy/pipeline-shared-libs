@@ -23,6 +23,7 @@ def call(Map config = [:]) {
   maven cmd: cmd + mavenVersionCheckPlugin + mavenVersionCheckDependency + " >> " + versionsLog
 
   if (recordIssue) {
+    // The parser 'maven-version-update-parser' is configured in Global Settings of Jenkins. Have a look at "Groovy Based Warnings Parsers"
     recordIssues tools: [groovyScript(parserId: 'maven-version-update-parser', pattern: versionsLog)], unstableTotalAll: 1
   }
 
