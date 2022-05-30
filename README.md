@@ -1,4 +1,7 @@
-# ivy-jenkins-shared-libraries #
+# Shared pipeline libraries for Jenkins
 
-<https://jenkins.io/doc/book/pipeline/shared-libraries/>
- 
+Shared libaries for Jenkins @ ivyTeam.
+
+## Resources
+
+- https://jenkins.io/doc/book/pipeline/shared-libraries/
