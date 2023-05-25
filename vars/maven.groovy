@@ -1,6 +1,6 @@
 def call(Map config) {
   configFileProvider([configFile(fileId: 'global-maven-settings', variable: 'GLOBAL_MAVEN_SETTINGS')]) {
-    def mavenCommand = "mvn --batch-mode --update-snapshots -gs $GLOBAL_MAVEN_SETTINGS -e -Duser.timezone=Europe/Zurich "
+    def mavenCommand = "mvn --batch-mode --update-snapshots -Dmaven.plugin.validation=BRIEF -gs $GLOBAL_MAVEN_SETTINGS -e -Duser.timezone=Europe/Zurich "
     if (isUnix()) {
       sh mavenCommand + config.cmd
     } else {
