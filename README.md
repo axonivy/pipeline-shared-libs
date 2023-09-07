@@ -1,6 +1,6 @@
 # Shared pipeline libraries for Jenkins
 
-Shared libaries for Jenkins @ ivyTeam.
+Shared libaries for Jenkins @ ivyTeam 🌱.
 
 ## Resources
 
