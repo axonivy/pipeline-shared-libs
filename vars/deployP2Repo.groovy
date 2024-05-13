@@ -1,7 +1,7 @@
 
 def fail(String paramName) {
     echo "ERROR: no ${paramName} provided."
-    currentBuild.result = 'FAILURE'
+    throw new Exception("no ${paramName} provided.")
 }
 
 /**
@@ -11,7 +11,6 @@ def call(config = [:]) {
   def sourceFolder = config.sourceFolder
   if (!sourceFolder) {
     fail('sourceFolder')
-    return
   }
   def sshUser = config.sshUser
   if (!sshUser) {
@@ -20,12 +19,10 @@ def call(config = [:]) {
   def sshHost = config.sshHost
   if (!sshHost) {
     fail('sshHost')
-    return
   }
   def targetFolder = config.targetFolder
   if (!targetFolder) {
     fail('targetFolder')
-    return
   }
 
   def host = sshUser + '@' + sshHost
