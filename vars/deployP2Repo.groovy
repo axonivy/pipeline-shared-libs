@@ -1,13 +1,33 @@
 
+def fail(String paramName) {
+    echo "ERROR: no ${paramName} provided."
+    currentBuild.result = 'FAILURE'
+}
+
 /**
  * deploy a p2 repo (unzipped) to a server with ssh
- *
- * @param sourceFolder source directory of the p2 repo in your workspace
- * @param sshUser user name used to login via ssh on the target server (default=ubuntu)
- * @param sshHost host name or ip of the target ssh server
- * @param targetFolder target directory on server
  */
-def call(String sourceFolder, String sshUser = 'ubuntu', String sshHost, String targetFolder) {
+def call(config = [:]) {
+  def sourceFolder = config.sourceFolder
+  if (!sourceFolder) {
+    fail('sourceFolder')
+    return
+  }
+  def sshUser = config.sshUser
+  if (!sshUser) {
+    sshUser = 'ubuntu'
+  }
+  def sshHost = config.sshHost
+  if (!sshHost) {
+    fail('sshHost')
+    return
+  }
+  def targetFolder = config.targetFolder
+  if (!targetFolder) {
+    fail('targetFolder')
+    return
+  }
+
   def host = sshUser + '@' + sshHost
   docker.image('axonivy/build-container:ssh-client-1').inside {
     sshagent(['zugprojenkins-ssh']) {
