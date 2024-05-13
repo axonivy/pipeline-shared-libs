@@ -1,0 +1,38 @@
+<p>
+Deploy a p2 repo (unzipped) to a server with ssh.
+</p>
+<p>
+Supported Parameters:
+</p>
+<dl>
+    <dt><code>sourceFolder</code></dt>
+    <dd>
+        (Mandatory) source directory of the p2 repo in your workspace value.
+    </dd>
+</dl>
+<dl>
+    <dt><code>sshUser</code></dt>
+    <dd>
+        (Optional) user name used to login via ssh on the target ssh server. Default: ubuntu
+    </dd>
+</dl>
+<dl>
+    <dt><code>sshHost</code></dt>
+    <dd>
+        (Mandatory) host name or ip of the target ssh server.
+    </dd>
+</dl>
+<dl>
+    <dt><code>targetFolder</code></dt>
+    <dd>
+        (Mandatory) target directory on server. Must end with '/'.
+    </dd>
+</dl>
+
+<p>
+    <b>Example:</b>
+</p>
+
+<pre>
+    deployP2Repo(sourceFolder: 'p2/target/repository/', sshHost: 'p2.ivyteam.io', targetFolder: 'p2/thirdparty-libs/11.4/qualifier/')
+</pre>
