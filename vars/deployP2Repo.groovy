@@ -8,7 +8,7 @@ Map call(config = [:]) {
   if (!srcDir) {
     srcDir = config.sourceFolder
     if (!srcDir) {
-      fail('sourceFolder')
+      fail('srcDir')
     }
   }
   def user = config.user
@@ -60,9 +60,9 @@ Map call(config = [:]) {
   def sshHost = user + '@' + host
   docker.image('axonivy/build-container:ssh-client-1').inside {
     sshagent(['zugprojenkins-ssh']) {
-      echo "Upload p2 repo from ${sourceFolder} to ${sshHost}:${targetFolder}"
+      echo "Upload p2 repo from ${srcDir} to ${sshHost}:${targetFolder}"
       sh "ssh ${sshHost} mkdir -p ${targetFolder}"
-      sh "rsync -r ${sourceFolder} ${sshHost}:${targetFolder}"
+      sh "rsync -r ${srcDir} ${sshHost}:${targetFolder}"
       sh "ssh ${sshHost} touch ${targetFolder}p2.ready"
       if (updateCompositeRepo) {
         def targetCompositePath = "${p2RootPath}/${name}/${version}/"
