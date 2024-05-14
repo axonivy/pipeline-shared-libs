@@ -59,10 +59,10 @@ def call(config = [:]) {
       sh "ssh ${host} touch ${targetFolder}p2.ready"
       if (updateCompositeRepo) {
         def targetCompositePath = "${targetRootPath}/${repoPath}/"
-        echo "Upload p2 composite repository to ${host}:${targetPath}"
-        sh "scp target/composite-repo/compositeArtifacts.xml ${host}:${targetPath}"
-        sh "scp target/composite-repo/compositeContent.xml ${host}:${targetPath}"
-        sh "scp target/composite-repo/p2.index ${host}:${targetPath}"
+        echo "Upload p2 composite repository to ${host}:${targetCompositePath}"
+        sh "scp target/composite-repo/compositeArtifacts.xml ${host}:${targetCompositePath}"
+        sh "scp target/composite-repo/compositeContent.xml ${host}:${targetCompositePath}"
+        sh "scp target/composite-repo/p2.index ${host}:${targetCompositePath}"
       }
     }
   }
