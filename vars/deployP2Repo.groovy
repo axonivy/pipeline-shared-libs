@@ -3,69 +3,80 @@
 /**
  * deploy a p2 repo (unzipped) to a server with ssh
  */
-def call(config = [:]) {
-  def sourceFolder = config.sourceFolder
-  if (!sourceFolder) {
-    fail('sourceFolder')
+Map call(config = [:]) {
+  def srcDir = config.srcDir
+  if (!srcDir) {
+    srcDir = config.sourceFolder
+    if (!srcDir) {
+      fail('sourceFolder')
+    }
   }
-  def sshUser = config.sshUser
-  if (!sshUser) {
-    sshUser = 'ubuntu'
+  def user = config.user
+  if (!user) {
+    user = 'ubuntu'
   }
-  def sshHost = config.sshHost
-  if (!sshHost) {
-    fail('sshHost')
+  def host = config.host
+  if (!host) {
+    host = 'p2.ivyteam.io'
   }
   def targetFolder = config.targetFolder
   Boolean updateCompositeRepo = config.updateCompositeRepo
   if (!updateCompositeRepo) {
     updateCompositeRepo = false
   }
+  def p2RootPath = config.p2RootPath
+  if (!p2RootPath) {
+    p2RootPath = 'p2'
+  }
   // simplify later, we always separate repoPath and qualifier
+  def name = config.name
+  if (!name) {
+    if (updateCompositeRepo) {
+      throw new Exception("name must be set if updateCompositeRepo='true'.")
+    }
+  }
+  def version = config.version
+  if (!version) {
+    if (updateCompositeRepo) {
+      throw new Exception("version must be set if updateCompositeRepo='true'.")
+    }
+  }
   def qualifier = config.qualifier
   if (!qualifier) {
-    if (updateCompositeRepo) {
-      throw new Exception("qualifier must be set if updateCompositeRepo='true'.")
-    }
-  }
-  def repoPath = config.repoPath
-  if (!repoPath) {
-    if (updateCompositeRepo) {
-      throw new Exception("repoPath must be set if updateCompositeRepo='true'.")
-    }
-  }
-  def targetRootPath = config.targetRootPath
-  if (!targetRootPath) {
-    if (updateCompositeRepo) {
-      throw new Exception("targetRootPath must be set if updateCompositeRepo='true'.")
-    }
-  } else {
-    targetFolder = "${targetRootPath}/${repoPath}/${qualifier}/"
+    qualifier = new Date().format('yyyyMMdd.HHmmss')
   }
   if (!targetFolder) {
-    fail('targetFolder')
+    if (updateCompositeRepo) {
+      targetFolder = "${p2RootPath}/${name}/${version}/${qualifier}"
+    } else {
+      fail('targetFolder')
+    }
   }
 
   if (updateCompositeRepo) {
-    generateCompositeRepo(repoPath, qualifier)
+    generateCompositeRepo("${name}-${version}", qualifier)
   }
 
-  def host = sshUser + '@' + sshHost
+  def sshHost = user + '@' + host
   docker.image('axonivy/build-container:ssh-client-1').inside {
     sshagent(['zugprojenkins-ssh']) {
-      echo "Upload p2 repo from ${sourceFolder} to ${host}:${targetFolder}"
-      sh "ssh ${host} mkdir -p ${targetFolder}"
-      sh "rsync -r ${sourceFolder} ${host}:${targetFolder}"
-      sh "ssh ${host} touch ${targetFolder}p2.ready"
+      echo "Upload p2 repo from ${sourceFolder} to ${sshHost}:${targetFolder}"
+      sh "ssh ${sshHost} mkdir -p ${targetFolder}"
+      sh "rsync -r ${sourceFolder} ${sshHost}:${targetFolder}"
+      sh "ssh ${sshHost} touch ${targetFolder}p2.ready"
       if (updateCompositeRepo) {
-        def targetCompositePath = "${targetRootPath}/${repoPath}/"
-        echo "Upload p2 composite repository to ${host}:${targetCompositePath}"
-        sh "scp target/composite-repo/compositeArtifacts.xml ${host}:${targetCompositePath}"
-        sh "scp target/composite-repo/compositeContent.xml ${host}:${targetCompositePath}"
-        sh "scp target/composite-repo/p2.index ${host}:${targetCompositePath}"
+        def targetCompositePath = "${p2RootPath}/${name}/${version}/"
+        echo "Upload p2 composite repository to ${sshHost}:${targetCompositePath}"
+        sh "scp target/composite-repo/compositeArtifacts.xml ${sshHost}:${targetCompositePath}"
+        sh "scp target/composite-repo/compositeContent.xml ${sshHost}:${targetCompositePath}"
+        sh "scp target/composite-repo/p2.index ${sshHost}:${targetCompositePath}"
       }
     }
   }
+
+  def url = "${host}/${repoName}/${version}/${qualifier}"
+  def compositeUrl = updateCompositeRepo ? "${host}/${repoName}/${version}/" : ''
+  return [url: url, compositeUrl: compositeUrl, host: host, qualifier: qualifier]
 }
 
 def fail(String paramName) {
