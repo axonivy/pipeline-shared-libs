@@ -21,7 +21,7 @@ def call(config = [:]) {
   if (!updateCompositeRepo) {
     updateCompositeRepo = false
   }
-  // simplify later, we always separate targetPath and qualifier
+  // simplify later, we always separate repoPath and qualifier
   def qualifier = config.qualifier
   if (!qualifier) {
     if (updateCompositeRepo) {
@@ -47,7 +47,7 @@ def call(config = [:]) {
   }
 
   if (updateCompositeRepo) {
-    generateCompositeRepo(targetPath, qualifier)
+    generateCompositeRepo(repoPath, qualifier)
   }
 
   def host = sshUser + '@' + sshHost
