@@ -22,7 +22,7 @@ Map call(config = [:]) {
     fail('version')
   }
   String qualifier = config.qualifier
-  qualifier = qualifier ?: new Date().format(yyyyMMdd.HHmmss)
+  qualifier = qualifier ?: new Date().format('yyyyMMdd.HHmmss')
   Boolean updateCompositeRepo = config.updateCompositeRepo
   updateCompositeRepo = updateCompositeRepo ?: true
 
