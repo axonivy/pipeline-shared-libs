@@ -46,7 +46,7 @@ Map call(config = [:]) {
     qualifier = new Date().format('yyyyMMdd.HHmmss')
   }
   if (!targetFolder) {
-    targetFolder = "${p2RootPath}/${name}/${version}/${qualifier}"
+    targetFolder = "${p2RootPath}/${name}/${version}/${qualifier}/"
   }
 
   if (updateCompositeRepo) {
