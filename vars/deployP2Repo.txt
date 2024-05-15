@@ -5,34 +5,77 @@ Deploy a p2 repo (unzipped) to a server with ssh.
 Supported Parameters:
 </p>
 <dl>
-    <dt><code>sourceFolder</code></dt>
+    <dt><code>srcDir</code></dt>
     <dd>
-        (Mandatory) source directory of the p2 repo in your workspace value.
+        <b>Mandatory</b> source directory of the p2 repo in your workspace value e.g. <code>workspace/p2/target/repository</code>
     </dd>
 </dl>
 <dl>
-    <dt><code>sshUser</code></dt>
+    <dt><code>user</code></dt>
     <dd>
-        (Optional) user name used to login via ssh on the target ssh server. Default: ubuntu
+        <i>Optional</i> user name used to log in to the target server via ssh. Default: <code>ubuntu</code>
     </dd>
 </dl>
 <dl>
-    <dt><code>sshHost</code></dt>
+    <dt><code>host</code></dt>
     <dd>
-        (Mandatory) host name or ip of the target ssh server.
+        <i>Optional</i> host name or ip of the target server. Default: <code>p2.ivyteam.io</code>
     </dd>
 </dl>
 <dl>
-    <dt><code>targetFolder</code></dt>
+    <dt><code>p2RootPath</code></dt>
     <dd>
-        (Mandatory) target directory on server. Must end with '/'.
+        <i>Optional</i> p2 root target direcory on server. Default: <code>p2</code>
     </dd>
 </dl>
-
+<dl>
+    <dt><code>name</code></dt>
+    <dd>
+        <b>Mandatory</b> repository name e.g. <code>core</code>
+    </dd>
+</dl>
+<dl>
+    <dt><code>version</code></dt>
+    <dd>
+        <b>Mandatory</b> repository version e.g. <code>1.0.0</code>
+    </dd>
+</dl>
+<dl>
+    <dt><code>qualifier</code></dt>
+    <dd>
+        <i>Optional</i> repository qualifier. Default: <code>new Date().format(yyyyMMdd.HHmmss)</code>
+    </dd>
+</dl>
+<dl>
+    <dt><code>updateCompositeRepo</code></dt>
+    <dd>
+        If <code>true</code> the composite repo is created / updated at version level. So that the quaifier is not used if p2 repo is consumed. Default: <code>true</code>
+    </dd>
+</dl>
 <p>
-    <b>Example:</b>
+    <b>Examples:</b>
 </p>
-
+<p>
+With all parameters:
+</p>
 <pre>
-    deployP2Repo(sourceFolder: 'p2/target/repository/', sshHost: 'p2.ivyteam.io', targetFolder: 'p2/thirdparty-libs/11.4/qualifier/')
+    def repo = deployP2Repo(srcDir: 'workspace/p2', host: 'p2.axonivy.io', user: 'user',  p2RootPath: 'data/p2', name: 'repo-name', version: '1.0.0', qualifier: '123456789', updateCompositeRepo: true)
+    //repo.url => p2.axonivy.io/repo-name/1.0.0/123456789/
+    //repo.compositeUrl => p2.axonivy.io/repo-name/1.0.0/
 </pre>
+<p>
+Uploads <code>workspace/p2</code> to <code>user@p2.axonivy.io:data/p2/repo-name/1.0.0/123456789/</code><br />
+Creates a compositeArtifacts.xml and compositeContent.xml at <code>user@p2.axonivy.io:data/p2/repo-name/1.0.0/</code>
+</p>
+<p>
+Only mandatory parameters:
+</p>
+<pre>
+    deployP2Repo(srcDir: 'workspace/p2', name: 'repo-name', version: '2.0.0')
+    //repo.url => p2.ivyteam.io/repo-name/2.0.0/xyz.abc/
+    //repo.compositeUrl => p2.ivyteam.io/repo-name/2.0.0/
+</pre>
+<p>
+Uploads <code>workspace/p2</code> to <code>ubuntu@p2.ivyteam.io:p2/repo-name/2.0.0/xyz.abc/</code><br />
+Creates a compositeArtifacts.xml and compositeContent.xml at <code>ubuntu@p2.ivyteam.io:p2/repo-name/2.0.0/</code>
+</p>

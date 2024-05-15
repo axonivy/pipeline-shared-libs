@@ -1,58 +1,36 @@
-
-
 /**
  * deploy a p2 repo (unzipped) to a server with ssh
  */
 Map call(config = [:]) {
   def srcDir = config.srcDir
   if (!srcDir) {
-    srcDir = config.sourceFolder
-    if (!srcDir) {
-      fail('srcDir')
-    }
+    fail('srcDir')
   }
-  def user = config.user
-  if (!user) {
-    user = 'ubuntu'
-  }
-  def host = config.host
-  if (!host) {
-    host = 'p2.ivyteam.io'
-  }
-  def targetFolder = config.targetFolder
-  Boolean updateCompositeRepo = config.updateCompositeRepo
-  if (!updateCompositeRepo) {
-    updateCompositeRepo = false
-  }
-  def p2RootPath = config.p2RootPath
-  if (!p2RootPath) {
-    p2RootPath = 'p2'
-  }
-  // simplify later, we always separate repoPath and qualifier
-  def name = config.name
+  String user = config.user
+  user = user ?: 'ubuntu'
+  String host = config.host
+  host = host ?: 'p2.ivyteam.io'
+  String p2RootPath = config.p2RootPath
+  p2RootPath = p2RootPath ?: 'p2'
+
+  String name = config.name
   if (!name) {
-    if (updateCompositeRepo) {
-      throw new Exception("name must be set if updateCompositeRepo='true'.")
-    }
+    fail('name')
   }
-  def version = config.version
+  String version = config.version
   if (!version) {
-    if (updateCompositeRepo) {
-      throw new Exception("version must be set if updateCompositeRepo='true'.")
-    }
+    fail('version')
   }
-  def qualifier = config.qualifier
-  if (!qualifier) {
-    qualifier = new Date().format('yyyyMMdd.HHmmss')
-  }
-  if (!targetFolder) {
-    targetFolder = "${p2RootPath}/${name}/${version}/${qualifier}/"
-  }
+  String qualifier = config.qualifier
+  qualifier = qualifier ?: new Date().format(yyyyMMdd.HHmmss)
+  Boolean updateCompositeRepo = config.updateCompositeRepo
+  updateCompositeRepo = updateCompositeRepo ?: true
 
   if (updateCompositeRepo) {
     generateCompositeRepo("${name}-${version}", qualifier)
   }
 
+  def targetFolder = "${p2RootPath}/${name}/${version}/${qualifier}/"
   def sshHost = user + '@' + host
   docker.image('axonivy/build-container:ssh-client-1').inside {
     sshagent(['zugprojenkins-ssh']) {
