@@ -70,8 +70,8 @@ Map call(config = [:]) {
     }
   }
 
-  def url = "${host}/${repoName}/${version}/${qualifier}"
-  def compositeUrl = updateCompositeRepo ? "${host}/${repoName}/${version}/" : ''
+  def url = "${host}/${name}/${version}/${qualifier}"
+  def compositeUrl = updateCompositeRepo ? "${host}/${name}/${version}/" : ''
   return [url: url, compositeUrl: compositeUrl, host: host, qualifier: qualifier]
 }
 
