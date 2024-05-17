@@ -48,7 +48,7 @@ Map call(config = [:]) {
     }
   }
 
-  def url = "${host}/${name}/${version}/${qualifier}"
+  def url = "${host}/${name}/${version}/${qualifier}/"
   def httpUrl = 'https://' + url
   def compositeUrl = updateCompositeRepo ? "${host}/${name}/${version}/" : ''
   def httpCompositeUrl = 'https://' + compositeUrl
