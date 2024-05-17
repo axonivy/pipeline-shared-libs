@@ -1,0 +1,22 @@
+<p>
+Checks if the current branch (<code>env.BRANCH_NAME</code>) or given branch is the master or a release branch
+</p>
+<p>
+Supported Parameters:
+</p>
+<dl>
+    <dt><code>branchName</code></dt>
+    <dd>
+        <i>Optional</i> branch name to check. Default: <code>env.BRANCH_NAME</code>
+    </dd>
+</dl>
+
+<p>
+    <b>Examples:</b>
+</p>
+<pre>
+    def isMasterOrReleaseBranch = isReleasingBranch()
+</pre>
+<pre>
+    def isMasterOrReleaseBranch = isReleasingBranch(branchName: 'master')
+</pre>
