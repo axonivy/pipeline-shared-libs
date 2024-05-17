@@ -49,8 +49,10 @@ Map call(config = [:]) {
   }
 
   def url = "${host}/${name}/${version}/${qualifier}"
+  def httpUrl = 'https://' + url
   def compositeUrl = updateCompositeRepo ? "${host}/${name}/${version}/" : ''
-  return [url: url, compositeUrl: compositeUrl, host: host, qualifier: qualifier]
+  def httpCompositeUrl = 'https://' + compositeUrl
+  return [url: url, httpUrl: httpUrl, compositeUrl: compositeUrl, httpCompositeUrl: httpCompositeUrl, host: host, qualifier: qualifier]
 }
 
 def fail(String paramName) {
