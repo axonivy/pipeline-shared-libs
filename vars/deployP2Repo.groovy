@@ -24,7 +24,9 @@ Map call(config = [:]) {
   String qualifier = config.qualifier
   qualifier = qualifier ?: new Date().format('yyyyMMdd.HHmmss')
   Boolean updateCompositeRepo = config.updateCompositeRepo
-  updateCompositeRepo = updateCompositeRepo ?: true
+  if (updateCompositeRepo == null) {
+    updateCompositeRepo = true
+  }
 
   if (updateCompositeRepo) {
     generateCompositeRepo("${name}-${version}", qualifier)
