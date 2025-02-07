@@ -1,0 +1,34 @@
+<p>
+Uploads bom to http://dependency-track.ivyteam.io
+
+The command line tool curl is required on the executing agent.
+
+</p>
+<p>
+Supported Parameters:
+</p>
+<dl>
+    <dt><code>projectName</code></dt>
+    <dd>
+        <i>Mandatory</i> project name in Dependency Track.
+    </dd>
+</dl>
+<dl>
+    <dt><code>projectVersion</code></dt>
+    <dd>
+        <i>Mandatory</i> project version in Dependency Track.
+    </dd>
+</dl>
+<dl>
+    <dt><code>bomFile</code></dt>
+    <dd>
+        <i>Mandatory</i> path to bom file which will be uploaded to Dependency Track.
+    </dd>
+</dl>
+
+<p>
+    <b>Example:</b>
+</p>
+<pre>
+    uploadBOM(projectName: 'dev.axonivy.com', projectVersion: 'master', bomFile: 'bom.json')
+</pre>
