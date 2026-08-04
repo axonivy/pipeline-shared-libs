@@ -1,0 +1,34 @@
+<p>
+Analyzes project with sonar and publishes to https://sonar.ivteam.io
+
+A maven environment is required on the executing agent.
+
+</p>
+<p>
+Supported Parameters:
+</p>
+<dl>
+    <dt><code>projectName</code></dt>
+    <dd>
+        <i>Mandatory</i> project name in sonarqube.
+    </dd>
+</dl>
+<dl>
+    <dt><code>mvnPhase</code></dt>
+    <dd>
+        <i>Optional</i> maven lifecycle phase. default: package.
+    </dd>
+</dl>
+<dl>
+    <dt><code>mvnArgs</code></dt>
+    <dd>
+        <i>Optional</i> additional maven arguments. default: empty.
+    </dd>
+</dl>
+
+<p>
+    <b>Example:</b>
+</p>
+<pre>
+    sonar(projectName: 'engine-cockpit', mvnPhase: 'clean verify', mvnArgs: '-Dsonar.exclusions=**/.p12')
+</pre>
