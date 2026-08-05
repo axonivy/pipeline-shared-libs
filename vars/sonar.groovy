@@ -23,10 +23,12 @@ void call(config = [:]) {
               ' ' +
               mvnArgs
   }
-  
 
   timeout(time: 5, unit: 'MINUTES') {
-    waitForQualityGate abortPipeline: true
+    def qg = waitForQualityGate abortPipeline: false
+    if (qg.status != 'OK') {
+      unstable("SonarQube Quality Gate failed: ${qg.status}")
+    }    
   }
 }
 
