@@ -19,7 +19,9 @@ void call(config = [:]) {
     maven cmd: mvnPhase + ' org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ' +
               '-Dsonar.projectKey=' + projectName +
               ' ' +
-              '-Dsonar.projectName=' + projectName
+              '-Dsonar.projectName=' + projectName +
+              ' ' +
+              mvnArgs
   }
   
 
