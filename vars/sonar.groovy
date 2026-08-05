@@ -14,16 +14,14 @@ void call(config = [:]) {
   if (!mvnArgs) {
     mvnArgs = ''
   }
-  
-  withCredentials([string(credentialsId: 'sonar.ivyteam.io', variable: 'token')]) {
-    withSonarQubeEnv() {
-      maven cmd: mvnPhase + ' org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar ' +
-                '-Dsonar.host.url=https://sonar.ivyteam.io ' +
-                '-Dsonar.projectKey=' + projectName + ' ' +
-                '-Dsonar.projectName=' + projectName + ' ' +
-                "-Dsonar.token=${token} " + mvnArgs
-    }
+
+  withSonarQubeEnv() {
+    maven cmd: mvnPhase + ' org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar ' +
+              '-Dsonar.projectKey=' + projectName +
+              ' ' +
+              '-Dsonar.projectName=' + projectName
   }
+  
 
   timeout(time: 5, unit: 'MINUTES') {
     waitForQualityGate abortPipeline: true
