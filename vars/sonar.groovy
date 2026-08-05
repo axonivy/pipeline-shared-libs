@@ -16,7 +16,7 @@ void call(config = [:]) {
   }
 
   withSonarQubeEnv() {
-    maven cmd: mvnPhase + ' org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar ' +
+    maven cmd: mvnPhase + ' org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ' +
               '-Dsonar.projectKey=' + projectName +
               ' ' +
               '-Dsonar.projectName=' + projectName
